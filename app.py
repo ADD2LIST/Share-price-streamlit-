@@ -2,7 +2,9 @@ import streamlit as st
 
 import pandas as pd
 
-from nsepy import get_history
+from nsepy import get_quote
+
+from nsetools import Nse
 
 import matplotlib.pyplot as plt
 
@@ -19,6 +21,18 @@ def get_stock_data(symbol, start_date, end_date):
                              end=end_date)
 
     return stock_data
+
+def get_current_price(symbol):
+
+    # Fetch current stock price
+
+    nse = Nse()
+
+    current_price = nse.get_quote(symbol)['lastPrice']
+
+    
+
+    return current_price
 
 def plot_historical_data(stock_data):
 
@@ -42,7 +56,7 @@ def main():
 
     # Get user input - stock symbol and date range
 
-    symbol = st.text_input('Enter stock symbol (e.g., RELIANCE.NS for Reliance Industries):')
+    symbol = st.text_input('Enter stock symbol (e.g., RELIANCE for Reliance Industries):')
 
     start_date = st.date_input('Enter start date:')
 
@@ -60,7 +74,7 @@ def main():
 
                 # Display current stock price
 
-                current_price = stock_data['Close'].iloc[-1]
+                current_price = get_current_price(symbol)
 
                 st.subheader('Current Price')
 
@@ -88,3 +102,5 @@ if __name__ == '__main__':
 
     main()
 
+
+    
