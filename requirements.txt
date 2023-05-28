@@ -1,0 +1,10 @@
+streamlit
+
+pandas
+
+nsepy
+
+nsetools
+
+matplotlib
+
