@@ -2,9 +2,7 @@ import streamlit as st
 
 import pandas as pd
 
-from nsepy import get_quote
-
-from nsetools import Nse
+from nsepy import get_history
 
 import matplotlib.pyplot as plt
 
@@ -26,11 +24,15 @@ def get_current_price(symbol):
 
     # Fetch current stock price
 
-    nse = Nse()
+    stock_data = get_history(symbol=symbol,
 
-    current_price = nse.get_quote(symbol)['lastPrice']
+                             index=True,
 
-    
+                             start=pd.Timestamp.now() - pd.DateOffset(1),
+
+                             end=pd.Timestamp.now())
+
+    current_price = stock_data['Close'].iloc[-1]
 
     return current_price
 
@@ -104,3 +106,4 @@ if __name__ == '__main__':
 
 
     
+            
